@@ -1,0 +1,27 @@
+.carousel{
+  height: 600px;
+  width: fit-content;
+}
+
+@media only screen and (max-width: 768px) {
+  .carousel {
+    height: 300px; /* Adjust height for small screens */
+  }
+}
+
+.group {
+  position: relative; /* Ensure the parent container is positioned relative */
+}
+
+.group:before {
+  content: ""; /* Add an empty content to the pseudo-element */
+  position: absolute; /* Position the overlay absolutely */
+  inset: 0; /* Fill the entire parent container */
+  opacity: 0; /* Initially set the opacity to 0 */
+  transition: opacity 0.3s ease; /* Add transition for smooth animation */
+  pointer-events: none; /* Ensure the overlay does not block pointer events */
+}
+
+.group:hover:before {
+  opacity: 0.2; /* Adjust the opacity to create the overlay effect */
+}
