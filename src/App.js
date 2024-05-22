@@ -11,6 +11,7 @@ import { CreatePost } from "./pages/CreatePost";
 import { RecipeDescription } from "./pages/RecipeDescription";
 
 function App() {
+  const isUserSignedIn = !!localStorage.getItem('token')
   return (
     <div className="App">
       <BrowserRouter>
@@ -21,9 +22,9 @@ function App() {
           <Route path="/create" element={<CreatePost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/recipes" element={<Recipes />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/recipe" element={ <RecipeDescription /> } />
+          {isUserSignedIn && <Route path="/recipes" element={<Recipes />} />}
+          {isUserSignedIn && <Route path="/profile" element={<Profile />} />}
+          {isUserSignedIn && <Route path="/recipe/:recipeName" element={ <RecipeDescription /> } />}
         </Routes>
       </BrowserRouter>
     </div>

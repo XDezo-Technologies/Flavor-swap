@@ -1,26 +1,32 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const SignupForm = () => {
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
 
-    const [form, setForm] = useState({})
+  const [form, setForm] = useState({});
 
-    const handleChange = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        })
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    }    
-  
-    const handleSignup = (e) => {
-        e.preventDefault()
+  const handleSignup = async (e) => {
+    e.preventDefault();
 
-        console.log("submit bhayo ")
-        console.log(form)
-        Navigate("/")
-    }
+    const response = await axios
+      .post("http://localhost:3001/signup", form)
+      .then(() => {
+        console.log(response.status);
+
+        console.log("submit bhayo ");
+
+        Navigate("/login");
+      });
+  };
   return (
     <div>
       {/* <!-- component --> */}
@@ -363,7 +369,7 @@ export const SignupForm = () => {
                   Email
                 </label>
                 <input
-                  type="text"
+                  type="email"
                   id="useremail"
                   name="useremail"
                   onChange={handleChange}

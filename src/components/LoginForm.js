@@ -1,27 +1,41 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const LoginForm = () => {
-    const Navigate = useNavigate()
+  const Navigate = useNavigate();
 
-    const [form, setForm] = useState({})
+  const [form, setForm] = useState({});
 
-    const handleChange = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        })
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    }    
-  
-    const handleLogin = (e) => {
-        e.preventDefault()
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log(form);
 
-        console.log("submit bhayo ")
-        console.log(form)
-        Navigate("/")
+    try {
+      const response = await axios.post("http://localhost:3001/login", form);
+
+      console.log(response.data);
+
+      if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        Navigate("/");
+        window.location.reload();
+      } else {
+        console.log(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error during login");
     }
-    return (
+  };
+  return (
     <div>
       {/* <!-- component --> */}
       <div className="flex h-screen">
@@ -360,8 +374,6 @@ export const LoginForm = () => {
               <div>
                 <label
                   htmlFor="password"
-                  autoComplete="off"
-                  
                   className="block text-sm font-medium text-gray-700">
                   Password
                 </label>
@@ -369,14 +381,14 @@ export const LoginForm = () => {
                   type="password"
                   id="password"
                   name="password"
-                  autoComplete="current-password"
+                  autoComplete="off"
                   onChange={handleChange}
                   className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                 />
               </div>
               <div>
                 <button
-                type="submit"
+                  type="submit"
                   className="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800  focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300">
                   Login
                 </button>
