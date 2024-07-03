@@ -25,9 +25,12 @@ export const LoginForm = () => {
 
       if (response.status === 200) {
         const token = response.data.token;
+        const user = response.data.user._id;
+        console.log(user)
         localStorage.setItem("token", token);
+        localStorage.setItem('user', user)
         Navigate("/");
-        window.location.reload();
+        // window.location.reload();
       } else {
         console.log(response.data.message);
       }
